@@ -5,8 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "_moduleAliases": {
-    "@": "dist",
-    "@@": "dist/src"
+    "@": "dist"
   },
   "scripts": {
     "dev": "nodemon server.ts",

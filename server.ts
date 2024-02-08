@@ -1,5 +1,5 @@
 import 'module-alias/register'
-import { app } from '@@/app'
+import { app } from '@/app'
 
 const PORT = 8888
 
