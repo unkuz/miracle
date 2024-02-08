@@ -15,10 +15,11 @@ class MongoDB {
     mongoose.set('debug', { color: true })
     try {
       await mongoose.connect(connectStr)
-      console.log(`Connect  MongoDB success`)
+      console.log(`MongoDB connect success`)
     } catch (e: any) {
-      console.log(`Connect mongoBD fail: ${e?.message}`)
+      console.log(`MongoDB connect fail: ${e?.message}`)
     } finally {
+      console.log(`MongoDB number of connect MongoDB: ${mongoose.connect.length}`)
     }
   }
 
