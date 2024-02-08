@@ -1,6 +1,9 @@
 import { hashSync } from 'bcrypt'
-import { Shop } from '../models/shop'
 import crypto from 'crypto'
+import { createTokenPair } from '../auth/utils'
+import { Shop } from '../models/shop'
+import { KeyTokenService } from './keyToken'
+import _ from 'lodash'
 
 export class AccessService {
   static async signUp({ name, email, password }: any) {
@@ -20,10 +23,50 @@ export class AccessService {
     if (shopCreate) {
       const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
         modulusLength: 4096,
+        publicKeyEncoding: {
+          type: 'pkcs1',
+          format: 'pem',
+        },
+        privateKeyEncoding: {
+          type: 'pkcs1',
+          format: 'pem',
+        },
       })
 
-      console.log({ privateKey, publicKey })
-      return shopCreate
+      const publicKeyStr = await KeyTokenService.generate({
+        userId: shopCreate._id,
+        publicKey,
+      })
+
+      if (!publicKeyStr) {
+        return {
+          code: 'xxx',
+          message: 'Error when generate publickey',
+          status: 'error',
+        }
+      }
+      const publicKeyObj = crypto.createPublicKey(publicKeyStr)
+
+      const { accessToken, refreshToken } = await createTokenPair(
+        { userId: shopCreate._id, email },
+        publicKeyObj,
+        privateKey,
+      )
+
+      if (accessToken && refreshToken) {
+        return {
+          code: 201,
+          metadata: {
+            shop: _.pick(shopCreate, ['name', 'email', '_id']),
+            accessToken,
+            refreshToken,
+          },
+        }
+      }
+      return {
+        code: 200,
+        metadata: null,
+      }
     }
 
     try {
