@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
 import { connectMongoDB } from './db/mongo'
+import { router } from './routes'
 
 export const app = express()
 
@@ -13,3 +14,6 @@ app.use(cors())
 app.use(compression())
 
 connectMongoDB()
+
+app.use(express.json())
+app.use(router)
