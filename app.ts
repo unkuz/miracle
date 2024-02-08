@@ -7,7 +7,7 @@ import { connectMongoDB } from './db/mongo'
 
 export const app = express()
 
-app.use(morgan('combined'))
+app.use(morgan('dev'))
 app.use(helmet())
 app.use(cors())
 app.use(compression())

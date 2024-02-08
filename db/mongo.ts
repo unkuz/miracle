@@ -1,6 +1,9 @@
 import mongoose from 'mongoose'
+import { appConfig } from '../config/app'
 
-const connectStr = `mongodb://localhost:27017/miracle`
+const { host, port, name } = appConfig.mongoDB
+
+const connectStr = `mongodb://${host}:${port}/${name}`
 
 class MongoDB {
   private static instance: MongoDB | null = null
@@ -14,7 +17,7 @@ class MongoDB {
     mongoose.set('debug', true)
     mongoose.set('debug', { color: true })
     try {
-      await mongoose.connect(connectStr)
+      await mongoose.connect(connectStr, { maxPoolSize: 60 })
       console.log(`MongoDB connect success`)
     } catch (e: any) {
       console.log(`MongoDB connect fail: ${e?.message}`)
