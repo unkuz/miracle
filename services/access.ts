@@ -33,6 +33,8 @@ export class AccessService {
         },
       })
 
+      // console.log('privateKey', privateKey, publicKey, typeof privateKey, typeof publicKey)
+
       const publicKeyStr = await KeyTokenService.generate({
         userId: shopCreate._id,
         publicKey,
@@ -46,6 +48,7 @@ export class AccessService {
         }
       }
       const publicKeyObj = crypto.createPublicKey(publicKeyStr)
+      console.log('publicKeyObj', publicKeyObj)
 
       const { accessToken, refreshToken } = await createTokenPair(
         { userId: shopCreate._id, email },

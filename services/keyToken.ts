@@ -3,7 +3,7 @@ import { KeyTokenModel } from '../models/keyToken'
 export class KeyTokenService {
   static async generate({ userId, publicKey }: any) {
     try {
-      const publicKeyStr = publicKey.toString()
+      const publicKeyStr = String(publicKey)
 
       const keyTokenCreate = await KeyTokenModel.create({
         user: userId,
