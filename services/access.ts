@@ -3,7 +3,7 @@ import crypto from 'crypto'
 import { createTokenPair } from '../auth/utils'
 import { Shop } from '../models/shop'
 import { KeyTokenService } from './keyToken'
-import _ from 'lodash'
+import { pick } from 'lodash'
 
 export class AccessService {
   static async signUp({ name, email, password }: any) {
@@ -60,7 +60,7 @@ export class AccessService {
         return {
           code: 201,
           metadata: {
-            shop: _.pick(shopCreate, ['name', 'email', '_id']),
+            shop: pick(shopCreate, ['name', 'email', '_id']),
             accessToken,
             refreshToken,
           },

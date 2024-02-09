@@ -1,14 +1,14 @@
 {
   "module": "module",
-  "name": "miracle_",
+  "name": "miracle",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.ts",
   "license": "MIT",
   "_moduleAliases": {
     "@": "dist"
   },
   "scripts": {
-    "dev": "set NODE_ENV=dev&& npx nodemon ./server.ts",
+    "dev": "set NODE_ENV=dev&& npx nodemon",
     "build": "npx tsc",
     "start": "set NODE_ENV=prod&& node dist/server.js",
     "prettier": "prettier --write ."
