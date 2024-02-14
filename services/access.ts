@@ -4,17 +4,14 @@ import { createTokenPair } from '../auth/utils'
 import { Shop } from '../models/shop'
 import { KeyTokenService } from './keyToken'
 import { pick } from 'lodash'
+import { BadRequestError } from '../core/errorResponse'
 
 export class AccessService {
   static async signUp({ name, email, password }: any) {
     const isExistAcc = await Shop.findOne({ email }).lean()
 
     if (isExistAcc) {
-      return {
-        code: 'xxx',
-        message: 'Aready exist account',
-        status: 'error',
-      }
+      throw new BadRequestError(`Error: Already exist account with this email`)
     }
 
     const hashPassword = hashSync(password, 10)
